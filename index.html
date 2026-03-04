@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Konversi Tanggal ke Pasaran Jawa</title>
-	<link rel="icon" type="image/png" href="icon_buku_pensil.png">
     <style>
         * {
             margin: 0;
@@ -35,6 +34,863 @@
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
             border: 1px solid rgba(255, 255, 255, 0.18);
         }
+
+        h1 {
+            color: #ffcc00;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-align: center;
+            border-bottom: 2px solid #ffcc00;
+            padding-bottom: 15px;
+        }
+
+        h2 {
+            color: #ffcc00;
+            margin: 25px 0 15px;
+            font-size: 1.8em;
+        }
+
+        .input-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            font-size: 1.2em;
+            color: #333;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .date-input-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .date-select {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .date-select select {
+            padding: 15px;
+            font-size: 1.1em;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .date-select select:focus {
+            outline: none;
+            border-color: #ffcc00;
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            background: linear-gradient(135deg, #ffcc00, #ffb300);
+            color: #333;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 204, 0, 0.3);
+            white-space: nowrap;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #ffb300, #ff9900);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 204, 0, 0.4);
+        }
+
+        .result-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: linear-gradient(135deg, #ffcc00, #ffb300);
+            color: #333;
+            font-weight: bold;
+            padding: 15px;
+            font-size: 1.1em;
+        }
+
+        td {
+            padding: 15px;
+            background: white;
+            color: #333;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: #fff9e6;
+        }
+
+        .neptu-badge {
+            display: inline-block;
+            background: #ffcc00;
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+
+        .explanation-box {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #fff5e6, #fff);
+            border-radius: 15px;
+            border-left: 5px solid #ffcc00;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-title {
+            color: #ff9900;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .info-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-card h4 {
+            color: #ff9900;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            border-bottom: 1px solid #ffcc00;
+            padding-bottom: 5px;
+        }
+
+        .info-card p {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #999;
+            font-style: italic;
+            padding: 20px;
+        }
+
+        .total-neptu {
+            background: linear-gradient(135deg, #ffcc00, #ffb300);
+            color: #333;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .date-input-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .date-select {
+                flex-direction: column;
+            }
+
+            .date-select select {
+                width: 100%;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            .info-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✨ Konversi Tanggal ke Pasaran Jawa ✨</h1>
+        
+        <div class="input-section">
+            <label for="dateInput">📅 Pilih Tanggal:</label>
+            <div class="date-input-container">
+                <div class="date-select">
+                    <select id="daySelect">
+                        <!-- Options akan diisi oleh JavaScript -->
+                    </select>
+                    
+                    <select id="monthSelect">
+                        <option value="0">Januari</option>
+                        <option value="1">Februari</option>
+                        <option value="2">Maret</option>
+                        <option value="3">April</option>
+                        <option value="4">Mei</option>
+                        <option value="5">Juni</option>
+                        <option value="6">Juli</option>
+                        <option value="7">Agustus</option>
+                        <option value="8">September</option>
+                        <option value="9">Oktober</option>
+                        <option value="10">November</option>
+                        <option value="11">Desember</option>
+                    </select>
+                    
+                    <select id="yearSelect">
+                        <!-- Options akan diisi oleh JavaScript -->
+                    </select>
+                </div>
+                <button onclick="convertDate()">🔍 Lihat Pasaran</button>
+            </div>
+        </div>
+
+        <div class="result-section">
+            <h2>📊 Hasil Konversi</h2>
+            <table id="resultTable">
+                <thead>
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Hari</th>
+                        <th>Pasaran</th>
+                        <th>Neptu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="4" class="empty-state">Silakan pilih tanggal untuk melihat hasil</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div id="totalNeptu" class="total-neptu" style="display: none;">
+                <!-- Total neptu akan ditampilkan di sini -->
+            </div>
+
+            <div class="explanation-box" id="explanationBox">
+                <div class="info-title" id="selectedDay">📖 Penjelasan Pasaran</div>
+                <div id="explanationContent">
+                    <p style="color: #666; text-align: center;">Pilih tanggal untuk melihat penjelasan detail</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Nilai neptu untuk hari dan pasaran
+        const neptuHari = {
+            'Minggu': 5,
+            'Senin': 4,
+            'Selasa': 3,
+            'Rabu': 7,
+            'Kamis': 8,
+            'Jumat': 6,
+            'Sabtu': 9
+        };
+
+        const neptuPasaran = {
+            'Legi': 5,
+            'Pahing': 9,
+            'Pon': 7,
+            'Wage': 4,
+            'Kliwon': 8
+        };
+
+        const pasaranMeanings = {
+            // === LEGI ===
+            'Minggu Legi': {
+                karakter: 'Berwibawa, disegani, memiliki kepemimpinan yang baik',
+                sifat: 'Bijaksana, dermawan, suka menolong',
+                kelebihan: 'Mudah mendapatkan rezeki, disukai banyak orang',
+                kekurangan: 'Kadang terlalu perfeksionis',
+                watak: 'Lakuning Srengenge (seperti matahari) - menerangi sekitar',
+                elemen: 'Api',
+                warnaKeberuntungan: 'Kuning, emas',
+                karier: 'Cocok sebagai pemimpin, guru, atau penasihat'
+            },
+            'Senin Legi': {
+                karakter: 'Cerdas, pandai bergaul, mudah beradaptasi',
+                sifat: 'Ramah, komunikatif, supel',
+                kelebihan: 'Pintar berbicara, mudah mencari teman',
+                kekurangan: 'Kadang terlalu banyak bicara',
+                watak: 'Lakuning Rembulan (seperti bulan) - menyejukkan',
+                elemen: 'Air',
+                warnaKeberuntungan: 'Putih, biru muda',
+                karier: 'Cocok di bidang komunikasi, jurnalistik, atau sales'
+            },
+            'Selasa Legi': {
+                karakter: 'Pemberani, tangguh, tidak mudah menyerah',
+                sifat: 'Tegas, mandiri, pekerja keras',
+                kelebihan: 'Ulet dalam bekerja, pantang menyerah',
+                kekurangan: 'Kadang terlalu keras kepala',
+                watak: 'Lakuning Geni (seperti api) - membara semangatnya',
+                elemen: 'Api',
+                warnaKeberuntungan: 'Merah, oranye',
+                karier: 'Cocok sebagai tentara, polisi, atau atlet'
+            },
+            'Rabu Legi': {
+                karakter: 'Cekatan, pandai mencari peluang',
+                sifat: 'Lincah, kreatif, inovatif',
+                kelebihan: 'Pandai berbisnis, memiliki banyak ide',
+                kekurangan: 'Kadang terlalu cepat bosan',
+                watak: 'Lakuning Angin (seperti angin) - lincah dan dinamis',
+                elemen: 'Angin',
+                warnaKeberuntungan: 'Hijau, coklat',
+                karier: 'Cocok sebagai pengusaha, seniman, atau arsitek'
+            },
+            'Kamis Legi': {
+                karakter: 'Bijaksana, suka belajar, pandai mengajar',
+                sifat: 'Cerdas, analitis, filosofis',
+                kelebihan: 'Mudah memahami ilmu, pandai mengajar',
+                kekurangan: 'Kadang terlalu teoritis',
+                watak: 'Lakuning Bumi (seperti tanah) - kokoh pendiriannya',
+                elemen: 'Tanah',
+                warnaKeberuntungan: 'Kuning, hijau',
+                karier: 'Cocok sebagai dosen, hakim, atau konsultan'
+            },
+            'Jumat Legi': {
+                karakter: 'Lembut hati, penyayang, romantis',
+                sifat: 'Sensitif, artistik, spiritual',
+                kelebihan: 'Memiliki kepekaan tinggi, suka menolong',
+                kekurangan: 'Mudah tersinggung',
+                watak: 'Lakuning Banyu (seperti air) - mengalir tenang',
+                elemen: 'Air',
+                warnaKeberuntungan: 'Putih, ungu',
+                karier: 'Cocok sebagai psikolog, seniman, atau pekerja sosial'
+            },
+            'Sabtu Legi': {
+                karakter: 'Pekerja keras, disiplin, bertanggung jawab',
+                sifat: 'Teliti, sabar, ulet',
+                kelebihan: 'Tekun dalam bekerja, bisa diandalkan',
+                kekurangan: 'Kadang terlalu kaku',
+                watak: 'Lakuning Windu - kuat dan tahan banting',
+                elemen: 'Tanah',
+                warnaKeberuntungan: 'Hitam, abu-abu',
+                karier: 'Cocok sebagai manajer, akuntan, atau pegawai negeri'
+            },
+
+            // === PAHING ===
+            'Minggu Pahing': {
+                karakter: 'Berwibawa, disegani, memiliki pancaran aura positif',
+                sifat: 'Bijaksana, dermawan, suka menolong, pemberani',
+                kelebihan: 'Mudah mendapatkan rezeki, disukai banyak orang, memiliki kekuatan spiritual',
+                kekurangan: 'Kadang terlalu keras pada diri sendiri, sulit memaafkan kesalahan sendiri',
+                watak: 'Lakuning Surya - bersinar terang, menjadi panutan',
+                elemen: 'Api',
+                warnaKeberuntungan: 'Merah, kuning emas, oranye',
+                karier: 'Cocok sebagai pemimpin spiritual, hakim, atau pemuka agama'
+            },
+            'Senin Pahing': {
+                karakter: 'Cerdas, pandai bergaul, mudah beradaptasi, penuh pesona',
+                sifat: 'Ramah, komunikatif, supel, mudah menarik simpati',
+                kelebihan: 'Pintar berbicara, mudah mencari teman, memiliki daya tarik alami',
+                kekurangan: 'Kadang terlalu memperhatikan penampilan, agak materialistis',
+                watak: 'Lakuning Candra - bersinar terang di malam hari, penuh pesona',
+                elemen: 'Air',
+                warnaKeberuntungan: 'Putih, perak, biru laut',
+                karier: 'Cocok di bidang hubungan masyarakat, diplomat, atau presenter'
+            },
+            'Selasa Pahing': {
+                karakter: 'Pemberani, tangguh, tidak mudah menyerah, garang tapi baik hati',
+                sifat: 'Tegas, mandiri, pekerja keras, pelindung',
+                kelebihan: 'Ulet dalam bekerja, pantang menyerah, berani mengambil risiko',
+                kekurangan: 'Kadang terlalu agresif, mudah marah jika terpicu',
+                watak: 'Lakuning Kala - kuat dan disegani, seperti dewa pelindung',
+                elemen: 'Api',
+                warnaKeberuntungan: 'Merah menyala, hitam, coklat tua',
+                karier: 'Cocok sebagai pemimpin militer, petinju, atau pengusaha besar'
+            },
+            'Rabu Pahing': {
+                karakter: 'Cekatan, pandai mencari peluang, cerdik, banyak akal',
+                sifat: 'Lincah, kreatif, inovatif, suka tantangan',
+                kelebihan: 'Pandai berbisnis, memiliki banyak ide, mudah melihat peluang',
+                kekurangan: 'Kadang terlalu licik, suka memanipulasi situasi',
+                watak: 'Lakuning Bayu - bergerak cepat seperti angin, tak terduga',
+                elemen: 'Angin',
+                warnaKeberuntungan: 'Hijau lumut, coklat, abu-abu',
+                karier: 'Cocok sebagai pengusaha, investor, atau negosiator'
+            },
+            'Kamis Pahing': {
+                karakter: 'Bijaksana, suka belajar, pandai mengajar, berwawasan luas',
+                sifat: 'Cerdas, analitis, filosofis, suka merenung',
+                kelebihan: 'Mudah memahami ilmu, pandai mengajar, memiliki wawasan spiritual',
+                kekurangan: 'Kadang terlalu teoritis, sulit mengambil keputusan praktis',
+                watak: 'Lakuning Budha - bijaksana dan penuh pengetahuan',
+                elemen: 'Tanah',
+                warnaKeberuntungan: 'Kuning, hijau zamrud, coklat',
+                karier: 'Cocok sebagai dosen, filsuf, atau penasihat spiritual'
+            },
+            'Jumat Pahing': {
+                karakter: 'Lembut hati, penyayang, romantis, penuh kasih',
+                sifat: 'Sensitif, artistik, spiritual, mudah iba',
+                kelebihan: 'Memiliki kepekaan tinggi, suka menolong, penyayang',
+                kekurangan: 'Mudah tersinggung, terlalu perasa, mudah kecewa',
+                watak: 'Lakuning Ratih - lembut dan indah seperti dewi cinta',
+                elemen: 'Air',
+                warnaKeberuntungan: 'Putih, ungu, pink lembut',
+                karier: 'Cocok sebagai psikolog, seniman, atau perawat'
+            },
+            'Sabtu Pahing': {
+                karakter: 'Pekerja keras, disiplin, bertanggung jawab, ambisius',
+                sifat: 'Teliti, sabar, ulet, tidak mudah puas',
+                kelebihan: 'Tekun dalam bekerja, bisa diandalkan, perfeksionis',
+                kekurangan: 'Kadang terlalu kaku, workaholic, sulit bersantai',
+                watak: 'Lakuning Bima - kuat, kokoh, dan pekerja keras',
+                elemen: 'Tanah',
+                warnaKeberuntungan: 'Hitam, abu-abu gelap, coklat tua',
+                karier: 'Cocok sebagai manajer proyek, arsitek, atau pengusaha properti'
+            },
+
+            // === PON ===
+            'Minggu Pon': {
+                karakter: 'Berwibawa, dermawan, suka melindungi',
+                sifat: 'Bijaksana, pemaaf, penyayang keluarga',
+                kelebihan: 'Mudah mendapat pertolongan, rezeki lancar',
+                kekurangan: 'Kadang terlalu percaya orang lain',
+                watak: 'Lakuning Srengenge - menerangi seperti matahari',
+                elemen: 'Api',
+                warnaKeberuntungan: 'Kuning, emas, oranye',
+                karier: 'Cocok sebagai guru, pemuka agama, atau pemimpin'
+            },
+            'Senin Pon': {
+                karakter: 'Cerdas, pandai bicara, supel',
+                sifat: 'Ramah, humoris, mudah bergaul',
+                kelebihan: 'Pandai mempengaruhi orang, banyak teman',
+                kekurangan: 'Kadang plin-plan, sulit bilang tidak',
+                watak: 'Lakuning Rembulan - menawan dan menyejukkan',
+                elemen: 'Air',
+                warnaKeberuntungan: 'Putih, biru, perak',
+                karier: 'Cocok sebagai humas, sales, atau entertainer'
+            },
+            'Selasa Pon': {
+                karakter: 'Pemberani, kompetitif, enerjik',
+                sifat: 'Tegas, sportif, tidak mudah menyerah',
+                kelebihan: 'Ulet, pantang mundur, berjiwa pemimpin',
+                kekurangan: 'Kadang terlalu agresif, suka memaksakan kehendak',
+                watak: 'Lakuning Geni - membara semangatnya',
+                elemen: 'Api',
+                warnaKeberuntungan: 'Merah, hitam, coklat',
+                karier: 'Cocok sebagai atlet, militer, atau pengusaha'
+            },
+            'Rabu Pon': {
+                karakter: 'Lincah, cerdik, pandai beradaptasi',
+                sifat: 'Kreatif, inovatif, suka tantangan',
+                kelebihan: 'Cepat belajar, mudah berubah, fleksibel',
+                kekurangan: 'Kadang plin-plan, kurang fokus',
+                watak: 'Lakuning Angin - bergerak cepat dan dinamis',
+                elemen: 'Angin',
+                warnaKeberuntungan: 'Hijau, biru, abu-abu',
+                karier: 'Cocok sebagai pengusaha, marketer, atau konsultan'
+            },
+            'Kamis Pon': {
+                karakter: 'Bijaksana, filosofis, suka belajar',
+                sifat: 'Intelektual, analitis, suka merenung',
+                kelebihan: 'Pandai memecahkan masalah, berwawasan luas',
+                kekurangan: 'Kadang terlalu serius, kurang santai',
+                watak: 'Lakuning Bumi - kokoh dan stabil',
+                elemen: 'Tanah',
+                warnaKeberuntungan: 'Kuning, coklat, hijau tua',
+                karier: 'Cocok sebagai dosen, peneliti, atau hakim'
+            },
+            'Jumat Pon': {
+                karakter: 'Lembut, penyayang, sensitif',
+                sifat: 'Romantis, artistik, penuh empati',
+                kelebihan: 'Peka terhadap perasaan orang, suka menolong',
+                kekurangan: 'Mudah tersinggung, terlalu perasa',
+                watak: 'Lakuning Banyu - mengalir dan menyejukkan',
+                elemen: 'Air',
+                warnaKeberuntungan: 'Ungu, pink, putih',
+                karier: 'Cocok sebagai psikolog, seniman, atau perawat'
+            },
+            'Sabtu Pon': {
+                karakter: 'Pekerja keras, disiplin, tangguh',
+                sifat: 'Teliti, sabar, bertanggung jawab',
+                kelebihan: 'Tekun, bisa diandalkan, konsisten',
+                kekurangan: 'Kadang terlalu kaku, sulit bersantai',
+                watak: 'Lakuning Windu - kuat dan tahan uji',
+                elemen: 'Tanah',
+                warnaKeberuntungan: 'Hitam, abu-abu, coklat',
+                karier: 'Cocok sebagai manajer, akuntan, atau pegawai'
+            },
+
+            // === WAGE ===
+            'Minggu Wage': {
+                karakter: 'Berwibawa, disegani, pendiam tapi berisi',
+                sifat: 'Tenang, introspektif, pendengar yang baik',
+                kelebihan: 'Bijaksana dalam bertindak, tidak tergesa-gesa',
+                kekurangan: 'Kadang terlalu tertutup, sulit dimengerti',
+                watak: 'Lakuning Srengenge - bersinar dengan tenang',
+                elemen: 'Api',
+                warnaKeberuntungan: 'Kuning, emas, coklat',
+                karier: 'Cocok sebagai konselor, hakim, atau pemimpin'
+            },
+            'Senin Wage': {
+                karakter: 'Cerdas, pendiam, penuh pemikiran',
+                sifat: 'Perfeksionis, analitis, suka mengamati',
+                kelebihan: 'Teliti, jarang salah, penuh perhitungan',
+                kekurangan: 'Kadang terlalu kritis, sulit percaya orang',
+                watak: 'Lakuning Rembulan - bersinar lembut di malam hari',
+                elemen: 'Air',
+                warnaKeberuntungan: 'Putih, biru tua, abu-abu',
+                karier: 'Cocok sebagai analis, peneliti, atau detektif'
+            },
+            'Selasa Wage': {
+                karakter: 'Pemberani, tegas, berpendirian kuat',
+                sifat: 'Mandiri, tidak suka diatur, independen',
+                kelebihan: 'Berani mengambil risiko, pantang menyerah',
+                kekurangan: 'Keras kepala, sulit menerima masukan',
+                watak: 'Lakuning Geni - api yang membara tak terbendung',
+                elemen: 'Api',
+                warnaKeberuntungan: 'Merah, hitam, oranye',
+                karier: 'Cocok sebagai wirausaha, pemimpin proyek, atau explorer'
+            },
+            'Rabu Wage': {
+                karakter: 'Cekatan, cerdik, penuh strategi',
+                sifat: 'Pandai membaca situasi, adaptif',
+                kelebihan: 'Cepat menemukan solusi, gesit',
+                kekurangan: 'Kadang terlalu licin, susah ditebak',
+                watak: 'Lakuning Angin - angin yang membawa perubahan',
+                elemen: 'Angin',
+                warnaKeberuntungan: 'Hijau, coklat, abu-abu',
+                karier: 'Cocok sebagai diplomat, negosiator, atau pengacara'
+            },
+            'Kamis Wage': {
+                karakter: 'Bijaksana, filosofis, suka merenung',
+                sifat: 'Intelektual, suka membaca, haus ilmu',
+                kelebihan: 'Analisis tajam, pandai memberi nasehat',
+                kekurangan: 'Kadang terlalu teoritis, kurang praktis',
+                watak: 'Lakuning Bumi - kokoh seperti gunung',
+                elemen: 'Tanah',
+                warnaKeberuntungan: 'Kuning, coklat, hijau',
+                karier: 'Cocok sebagai profesor, penulis, atau filsuf'
+            },
+            'Jumat Wage': {
+                karakter: 'Lembut, sensitif, penuh perasaan',
+                sifat: 'Empati, suka membantu, penyayang',
+                kelebihan: 'Peka terhadap lingkungan, peduli',
+                kekurangan: 'Mudah larut dalam kesedihan',
+                watak: 'Lakuning Banyu - air yang mengalir tenang',
+                elemen: 'Air',
+                warnaKeberuntungan: 'Ungu, putih, biru muda',
+                karier: 'Cocok sebagai pekerja sosial, konselor, atau seniman'
+            },
+            'Sabtu Wage': {
+                karakter: 'Pekerja keras, ulet, pantang menyerah',
+                sifat: 'Tekun, disiplin, konsisten',
+                kelebihan: 'Rajin, bertanggung jawab, bisa diandalkan',
+                kekurangan: 'Kadang terlalu monoton, kurang kreatif',
+                watak: 'Lakuning Windu - kuat dan tahan lama',
+                elemen: 'Tanah',
+                warnaKeberuntungan: 'Hitam, abu-abu, coklat tua',
+                karier: 'Cocok sebagai pegawai, buruh ahli, atau teknisi'
+            },
+
+            // === KLIWON ===
+            'Minggu Kliwon': {
+                karakter: 'Karismatik, spiritual, berwibawa',
+                sifat: 'Bijaksana, dermawan, disegani',
+                kelebihan: 'Memiliki kekuatan spiritual, mudah mendapat berkah',
+                kekurangan: 'Kadang terlalu mistis, sulit dipahami logika',
+                watak: 'Lakuning Surya - matahari yang menerangi alam semesta',
+                elemen: 'Api',
+                warnaKeberuntungan: 'Kuning, emas, ungu',
+                karier: 'Cocok sebagai pemuka agama, paranormal, atau pemimpin spiritual'
+            },
+            'Senin Kliwon': {
+                karakter: 'Cerdas, intuitif, penuh wawasan',
+                sifat: 'Komunikatif, mudah bergaul, terbuka',
+                kelebihan: 'Intuisi kuat, pandai membaca orang',
+                kekurangan: 'Kadang terlalu terbuka, mudah dibaca',
+                watak: 'Lakuning Candra - bulan yang menerangi malam',
+                elemen: 'Air',
+                warnaKeberuntungan: 'Putih, perak, biru',
+                karier: 'Cocok sebagai psikolog, konselor, atau motivator'
+            },
+            'Selasa Kliwon': {
+                karakter: 'Pemberani, garang, disegani',
+                sifat: 'Tegas, pelindung, tidak kenal takut',
+                kelebihan: 'Berani membela kebenaran, melindungi yang lemah',
+                kekurangan: 'Kadang terlalu keras, menakutkan',
+                watak: 'Lakuning Kala - dewa pelindung yang ditakuti lawan',
+                elemen: 'Api',
+                warnaKeberuntungan: 'Merah, hitam, oranye',
+                karier: 'Cocok sebagai polisi, tentara, atau bodyguard'
+            },
+            'Rabu Kliwon': {
+                karakter: 'Cekatan, cerdik, penuh siasat',
+                sifat: 'Lincah, kreatif, inovatif',
+                kelebihan: 'Pandai mencari peluang, tidak mudah tertipu',
+                kekurangan: 'Kadang terlalu licik, suka mempermainkan situasi',
+                watak: 'Lakuning Bayu - angin yang membawa perubahan besar',
+                elemen: 'Angin',
+                warnaKeberuntungan: 'Hijau, coklat, abu-abu',
+                karier: 'Cocok sebagai pengacara, politisi, atau pengusaha'
+            },
+            'Kamis Kliwon': {
+                karakter: 'Bijaksana, filosofis, penuh makna',
+                sifat: 'Cerdas, spiritual, suka merenung',
+                kelebihan: 'Memiliki kebijaksanaan tinggi, dihormati',
+                kekurangan: 'Kadang terlalu serius, kurang humor',
+                watak: 'Lakuning Budha - penuh pencerahan dan kebijaksanaan',
+                elemen: 'Tanah',
+                warnaKeberuntungan: 'Kuning, coklat, putih',
+                karier: 'Cocok sebagai guru besar, filsuf, atau tokoh agama'
+            },
+            'Jumat Kliwon': {
+                karakter: 'Lembut, penyayang, penuh kasih',
+                sifat: 'Romantis, artistik, spiritual',
+                kelebihan: 'Sangat penyayang, penuh pengertian',
+                kekurangan: 'Mudah terluka, terlalu sensitif',
+                watak: 'Lakuning Ratih - dewi cinta yang lembut dan indah',
+                elemen: 'Air',
+                warnaKeberuntungan: 'Ungu, pink, putih',
+                karier: 'Cocok sebagai seniman, penyair, atau terapis'
+            },
+            'Sabtu Kliwon': {
+                karakter: 'Pekerja keras, ulet, tangguh',
+                sifat: 'Disiplin, bertanggung jawab, konsisten',
+                kelebihan: 'Sangat tekun, tidak mudah menyerah',
+                kekurangan: 'Kadang terlalu keras pada diri sendiri',
+                watak: 'Lakuning Bima - ksatria yang kuat dan tangguh',
+                elemen: 'Tanah',
+                warnaKeberuntungan: 'Hitam, abu-abu, coklat',
+                karier: 'Cocok sebagai pemimpin perusahaan, manajer, atau pengusaha'
+            }
+        };
+
+        // Fungsi untuk mengisi dropdown hari
+        function populateDaySelect(selectedDay = null) {
+            const daySelect = document.getElementById('daySelect');
+            daySelect.innerHTML = '';
+            
+            for (let i = 1; i <= 31; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                daySelect.appendChild(option);
+            }
+            
+            if (selectedDay) {
+                daySelect.value = selectedDay;
+            }
+        }
+
+        // Fungsi untuk mengisi dropdown tahun
+        function populateYearSelect(selectedYear = null) {
+            const yearSelect = document.getElementById('yearSelect');
+            yearSelect.innerHTML = '';
+            
+            const currentYear = new Date().getFullYear();
+            // Dari tahun 1900 sampai 5 tahun ke depan
+            for (let i = 1900; i <= currentYear + 5; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                yearSelect.appendChild(option);
+            }
+            
+            if (selectedYear) {
+                yearSelect.value = selectedYear;
+            }
+        }
+
+        // Fungsi untuk mendapatkan tanggal dari dropdown
+        function getDateFromSelectors() {
+            const day = parseInt(document.getElementById('daySelect').value);
+            const month = parseInt(document.getElementById('monthSelect').value);
+            const year = parseInt(document.getElementById('yearSelect').value);
+            
+            return new Date(year, month, day);
+        }
+
+        // Fungsi untuk mengatur dropdown berdasarkan tanggal
+        function setSelectorsFromDate(date) {
+            const day = date.getDate();
+            const month = date.getMonth();
+            const year = date.getFullYear();
+            
+            document.getElementById('daySelect').value = day;
+            document.getElementById('monthSelect').value = month;
+            document.getElementById('yearSelect').value = year;
+        }
+
+        // Fungsi untuk mendapatkan penjelasan berdasarkan hari dan pasaran
+        function getExplanation(day, pasaran) {
+            const key = `${day} ${pasaran}`;
+            return pasaranMeanings[key] || {
+                karakter: `${day} ${pasaran} - Karakter unik dengan kombinasi hari dan pasaran`,
+                sifat: `Sifat khas ${day} ${pasaran}`,
+                kelebihan: `Kelebihan ${day} ${pasaran}`,
+                kekurangan: `Kekurangan ${day} ${pasaran}`,
+                watak: `Watak ${day} ${pasaran}`,
+                elemen: ['Api', 'Tanah', 'Angin', 'Air'][Math.floor(Math.random() * 4)],
+                warnaKeberuntungan: ['Merah', 'Kuning', 'Putih', 'Hitam', 'Hijau'][Math.floor(Math.random() * 5)],
+                karier: 'Beragam sesuai minat dan bakat'
+            };
+        }
+
+        function convertDate() {
+            const date = getDateFromSelectors();
+            
+            const daysOfWeek = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const pasaranCycle = ['Legi', 'Pahing', 'Pon', 'Wage', 'Kliwon'];
+
+            const dayOfWeek = date.getDay();
+            
+            // Referensi: 1 Januari 2024 adalah Senin Pahing
+            const referenceDate = new Date('2024-01-01');
+            const referencePasaranIndex = 1; // Pahing
+            
+            // Hitung selisih hari
+            const targetDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            const refDate = new Date(referenceDate.getFullYear(), referenceDate.getMonth(), referenceDate.getDate());
+            
+            const timeDifference = targetDate - refDate;
+            const dayDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            
+            // Pasaran berganti setiap 5 hari
+            let pasaranIndex = (referencePasaranIndex + dayDifference) % 5;
+            if (pasaranIndex < 0) pasaranIndex += 5;
+            
+            const pasaran = pasaranCycle[pasaranIndex];
+            const dayName = daysOfWeek[dayOfWeek];
+
+            // Hitung neptu
+            const neptuHariValue = neptuHari[dayName];
+            const neptuPasaranValue = neptuPasaran[pasaran];
+            const totalNeptu = neptuHariValue + neptuPasaranValue;
+
+            // Menampilkan hasil di tabel
+            const tbody = document.querySelector('#resultTable tbody');
+            const formattedDate = date.toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            
+            tbody.innerHTML = `<tr>
+                <td>${formattedDate}</td>
+                <td>${dayName} <span class="neptu-badge">${neptuHariValue}</span></td>
+                <td>${pasaran} <span class="neptu-badge">${neptuPasaranValue}</span></td>
+                <td><strong style="color: #ff9900; font-size: 1.2em;">${totalNeptu}</strong></td>
+            </tr>`;
+
+            // Tampilkan total neptu
+            const totalNeptuDiv = document.getElementById('totalNeptu');
+            totalNeptuDiv.style.display = 'block';
+            totalNeptuDiv.innerHTML = `✨ Total Neptu: <strong>${totalNeptu}</strong> (${dayName} ${neptuHariValue} + ${pasaran} ${neptuPasaranValue}) ✨`;
+
+            // Mendapatkan dan menampilkan penjelasan
+            const explanation = getExplanation(dayName, pasaran);
+            const explanationContent = document.getElementById('explanationContent');
+            const selectedDay = document.getElementById('selectedDay');
+            
+            selectedDay.textContent = `📖 Penjelasan ${dayName} ${pasaran} (Neptu: ${totalNeptu})`;
+            
+            explanationContent.innerHTML = `
+                <div class="info-content">
+                    <div class="info-card">
+                        <h4>🌟 Karakter & Sifat</h4>
+                        <p><strong>Karakter:</strong> ${explanation.karakter}</p>
+                        <p><strong>Sifat:</strong> ${explanation.sifat}</p>
+                        <p><strong>Watak:</strong> ${explanation.watak}</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>⚡ Kelebihan & Kekurangan</h4>
+                        <p><strong>Kelebihan:</strong> ${explanation.kelebihan}</p>
+                        <p><strong>Kekurangan:</strong> ${explanation.kekurangan}</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>🍀 Pembawa & Karier</h4>
+                        <p><strong>Elemen:</strong> ${explanation.elemen}</p>
+                        <p><strong>Warna Keberuntungan:</strong> ${explanation.warnaKeberuntungan}</p>
+                        <p><strong>Karier Cocok:</strong> ${explanation.karier}</p>
+                    </div>
+                </div>
+                <p style="color: #999; font-size: 0.9em; margin-top: 20px; text-align: center; font-style: italic;">
+                    *Berdasarkan primbon Jawa. Setiap individu unik, jadikan ini sebagai referensi.
+                </p>
+            `;
+        }
+
+        // Inisialisasi dropdown dan set default ke hari ini
+        function initializeDateSelectors() {
+            const today = new Date();
+            
+            populateDaySelect(today.getDate());
+            populateYearSelect(today.getFullYear());
+            
+            // Set bulan
+            document.getElementById('monthSelect').value = today.getMonth();
+        }
+
+        // Jalankan inisialisasi saat halaman dimuat
+        window.onload = function() {
+            initializeDateSelectors();
+            convertDate();
+        };
+
+        // Tambahkan event listener untuk enter key (opsional, karena sudah ada tombol)
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.target.tagName !== 'SELECT') {
+                convertDate();
+            }
+        });
+    </script>
+</body>
+</html>        }
 
         h1 {
             color: #ffcc00;
@@ -811,3 +1667,4 @@
 </body>
 
 </html>
+
